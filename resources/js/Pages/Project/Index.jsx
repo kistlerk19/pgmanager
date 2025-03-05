@@ -1,10 +1,10 @@
-import Pagination from '@/Components/Pagination';
-import SelectInput from '@/Components/SelectInput';
-import TextInput from '@/Components/TextInput';
-import { PROJECT_STATUS_CLASS_MAP, PROJECT_STATUS_TEXT_MAP } from '@/constants';
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { ChevronUpDownIcon } from '@heroicons/react/16/solid';
-import { Head, Link, router } from '@inertiajs/react';
+import Pagination from "@/Components/Pagination";
+import SelectInput from "@/Components/SelectInput";
+import TableHeading from "@/Components/TableHeading";
+import TextInput from "@/Components/TextInput";
+import { PROJECT_STATUS_CLASS_MAP, PROJECT_STATUS_TEXT_MAP } from "@/constants";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import { Head, Link, router } from "@inertiajs/react";
 
 export default function Index({ auth, projects, queryParams = null }) {
     queryParams = queryParams || {};
@@ -15,28 +15,28 @@ export default function Index({ auth, projects, queryParams = null }) {
             delete queryParams[name];
         }
 
-        router.get(route('project.index'), queryParams);
+        router.get(route("project.index"), queryParams);
     };
 
     const onKeyPress = (name, e) => {
-        if (e.key !== 'Enter') return;
+        if (e.key !== "Enter") return;
 
         searchFieldChanged(name, e.target.value);
     };
 
     const sortChanged = (name) => {
         if (name === queryParams.sort_field) {
-            if (queryParams.sort_direction === 'asc') {
-                queryParams.sort_direction = 'desc';
+            if (queryParams.sort_direction === "asc") {
+                queryParams.sort_direction = "desc";
             } else {
-                queryParams.sort_direction = 'asc';
+                queryParams.sort_direction = "asc";
             }
         } else {
             queryParams.sort_field = name;
-            queryParams.sort_direction = 'asc';
+            queryParams.sort_direction = "asc";
         }
 
-        router.get(route('project.index'), queryParams);
+        router.get(route("project.index"), queryParams);
     };
 
     return (
@@ -57,61 +57,67 @@ export default function Index({ auth, projects, queryParams = null }) {
                                 <table className="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
                                     <thead className="text-xs text-gray-700 uppercase border-b-2 border-gray-500 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                         <tr className="text-nowrap">
-                                            <th
-                                                onClick={(e) =>
-                                                    sortChanged('id')
+                                            <TableHeading
+                                                name="id"
+                                                sortChanged={sortChanged}
+                                                sort_field={
+                                                    queryParams.sort_field
+                                                }
+                                                sort_direction={
+                                                    queryParams.sort_direction
                                                 }
                                             >
-                                                <div className="flex items-center justify-start gap-1 px-3 py-3 cursor-pointer">
-                                                    ID
-                                                    <ChevronUpDownIcon className="w-4" />
-                                                </div>
-                                                {/* <div>
-                                                    <ChevronUpIcon className="w-4" />
-                                                    <ChevronDownIcon className="w-4 -mt-2" />
-                                                </div> */}
-                                            </th>
+                                                ID
+                                            </TableHeading>
                                             <th className="px-3 py-3">Image</th>
-                                            <th
-                                                onClick={(e) =>
-                                                    sortChanged('name')
+                                            <TableHeading
+                                                name="name"
+                                                sortChanged={sortChanged}
+                                                sort_field={
+                                                    queryParams.sort_field
+                                                }
+                                                sort_direction={
+                                                    queryParams.sort_direction
                                                 }
                                             >
-                                                <div className="flex items-center justify-start gap-1 px-3 py-3 cursor-pointer">
-                                                    Name
-                                                    <ChevronUpDownIcon className="w-4" />
-                                                </div>
-                                            </th>
-                                            <th
-                                                onClick={() =>
-                                                    sortChanged('status')
+                                                Name
+                                            </TableHeading>
+                                            <TableHeading
+                                                name="status"
+                                                sortChanged={sortChanged}
+                                                sort_field={
+                                                    queryParams.sort_field
+                                                }
+                                                sort_direction={
+                                                    queryParams.sort_direction
                                                 }
                                             >
-                                                <div className="flex items-center justify-start gap-1 px-3 py-3 cursor-pointer">
-                                                    Status
-                                                    <ChevronUpDownIcon className="w-4" />
-                                                </div>
-                                            </th>
-                                            <th
-                                                onClick={(e) =>
-                                                    sortChanged('created_at')
+                                                Status
+                                            </TableHeading>
+                                            <TableHeading
+                                                name="created_at"
+                                                sortChanged={sortChanged}
+                                                sort_field={
+                                                    queryParams.sort_field
+                                                }
+                                                sort_direction={
+                                                    queryParams.sort_direction
                                                 }
                                             >
-                                                <div className="flex items-center justify-start gap-1 px-3 py-3 cursor-pointer">
-                                                    Created At
-                                                    <ChevronUpDownIcon className="w-4" />
-                                                </div>
-                                            </th>
-                                            <th
-                                                onClick={(e) =>
-                                                    sortChanged('due_date')
+                                                Created At
+                                            </TableHeading>
+                                            <TableHeading
+                                                name="due_date"
+                                                sortChanged={sortChanged}
+                                                sort_field={
+                                                    queryParams.sort_field
+                                                }
+                                                sort_direction={
+                                                    queryParams.sort_direction
                                                 }
                                             >
-                                                <div className="flex items-center justify-start gap-1 px-3 py-3 cursor-pointer">
-                                                    Due Date
-                                                    <ChevronUpDownIcon className="w-4" />
-                                                </div>
-                                            </th>
+                                                Due Date
+                                            </TableHeading>
                                             <th className="px-3 py-3">
                                                 Created By
                                             </th>
@@ -134,12 +140,12 @@ export default function Index({ auth, projects, queryParams = null }) {
                                                     placeholder="Project Name"
                                                     onBlur={(e) =>
                                                         searchFieldChanged(
-                                                            'name',
+                                                            "name",
                                                             e.target.value,
                                                         )
                                                     }
                                                     onKeyPress={(e) =>
-                                                        onKeyPress('name', e)
+                                                        onKeyPress("name", e)
                                                     }
                                                 />
                                             </th>
@@ -151,7 +157,7 @@ export default function Index({ auth, projects, queryParams = null }) {
                                                     className="w-full"
                                                     onChange={(e) =>
                                                         searchFieldChanged(
-                                                            'status',
+                                                            "status",
                                                             e.target.value,
                                                         )
                                                     }
@@ -199,7 +205,7 @@ export default function Index({ auth, projects, queryParams = null }) {
                                                 <td className="px-3 py-2">
                                                     <span
                                                         className={
-                                                            'rounded px-2 py-1 text-white ' +
+                                                            "rounded px-2 py-1 text-white " +
                                                             PROJECT_STATUS_CLASS_MAP[
                                                                 project.status
                                                             ]
@@ -225,7 +231,7 @@ export default function Index({ auth, projects, queryParams = null }) {
                                                     <Link
                                                         className="mx-1 font-medium text-blue-600 hover:underline dark:text-blue-500"
                                                         href={route(
-                                                            'project.edit',
+                                                            "project.edit",
                                                             project.id,
                                                         )}
                                                     >
@@ -234,7 +240,7 @@ export default function Index({ auth, projects, queryParams = null }) {
                                                     <Link
                                                         className="mx-1 font-medium text-red-600 hover:underline dark:text-red-500"
                                                         href={route(
-                                                            'project.destroy',
+                                                            "project.destroy",
                                                             project.id,
                                                         )}
                                                     >
